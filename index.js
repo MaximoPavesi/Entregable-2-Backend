@@ -2,6 +2,7 @@ const fs = require("fs/promises");
 
 class ProductManager {
   constructor() {
+    this.path = "./products.json"
     this.products = [];
     this.productId = 1;
   }
@@ -26,7 +27,7 @@ class ProductManager {
     product.id = id;
     await this.getProducts();
     this.products.push(product);
-    await fs.writeFile("./products.json", JSON.stringify(this.products));
+    await fs.writeFile("./products.json", JSON.stringify(this.products), "utf-8");
   }
 
   async getProductById(id) {
