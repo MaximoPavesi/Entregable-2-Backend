@@ -9,7 +9,7 @@ class ProductManager {
 
   async getProducts() {
     try {
-      const data = await fs.readFile("./products.json");
+      const data = await fs.readFile(this.path);
       this.products = JSON.parse(data);
     } catch (err) {
       if (err.code === "ENOENT") {
@@ -27,7 +27,7 @@ class ProductManager {
     product.id = id;
     await this.getProducts();
     this.products.push(product);
-    await fs.writeFile("./products.json", JSON.stringify(this.products), "utf-8");
+    await fs.writeFile(this.path, JSON.stringify(this.products), "utf-8");
   }
 
   async getProductById(id) {
@@ -47,7 +47,7 @@ class ProductManager {
     }
     const updatedProduct = Object.assign({}, this.products[productIndex], updates);
     this.products[productIndex] = updatedProduct;
-    await fs.writeFile("./products.json", JSON.stringify(this.products));
+    await fs.writeFile(this.path, JSON.stringify(this.products), "utf-8");
   }
 
   async deleteProduct(id) {
@@ -57,7 +57,7 @@ class ProductManager {
       throw new Error(`Product with id ${id} not found`);
     }
     this.products.splice(productIndex, 1);
-    await fs.writeFile("./products.json", JSON.stringify(this.products));
+    await fs.writeFile(this.path, JSON.stringify(this.products), "utf-8");
   }
 }
 
